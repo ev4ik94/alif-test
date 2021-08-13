@@ -1,25 +1,37 @@
-import logo from './logo.svg';
 import './App.css';
+import {useState} from 'react'
 
-function App() {
+
+/*-----Components----*/
+import {Home} from './components/Home'
+import {Hall} from './components/Hall'
+
+/*---Redux-----*/
+import {connect} from 'react-redux'
+import {setBGColorState} from "./redux/action/stateBgColor.action";
+
+function App({bgColor, setBGColorState}) {
+  const [changeColor, setChangeColor] = useState(false)
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <Home setChangeColor={setChangeColor}/>
+      <Hall changeColor={changeColor}
+            setChangeColor={setChangeColor}
+            setBGColorState={setBGColorState}
+            bgColor={bgColor}/>
     </div>
   );
 }
 
-export default App;
+
+
+const mapStateToProps = state=>({
+    bgColor: state.bgColor
+})
+
+const mapDispatchToPRops = {
+    setBGColorState
+}
+
+export default connect(mapStateToProps, mapDispatchToPRops)(App);
